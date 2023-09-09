@@ -12,7 +12,7 @@ pipeline {
                 script {
                     docker.build('myapp:latest')
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
-                        docker.image('alkeshgupta/myapp:latest').push()
+                        docker.image('alkeshgupta/capstone-project-01:latest').push()
                     }
                 }
             }
