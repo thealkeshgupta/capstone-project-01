@@ -11,8 +11,8 @@ pipeline {
             steps {
                 script {
                     docker.build('myapp:latest')
-                    docker.withRegistry('alkeshgupta/capstone-project-01', 'dockerhub-credentials') {
-                        docker.image('myapp:latest').push()
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
+                        docker.image('alkeshgupta/myapp:latest').push()
                     }
                 }
             }
