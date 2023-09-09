@@ -7,13 +7,20 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build and Push Docker Image') {
+        stage('Docker Build and Tag') {
+           steps {
+                sh 'docker build -t myapp:latest .' 
+                sh 'docker tag nginxtest alkeshgupta/myapp:latest'
+                sh 'docker tag nginxtest alkeshgupta/myapp:$BUILD_NUMBER' 
+          }
+        }
+        stage('Docker Image') {
             steps {
                 script {
-                    docker.build('myapp:latest')
-                    docker.withRegistry('', 'dockerhub-credentials') {
-                        docker.image('alkeshgupta/myapp:latest').push()
-                    }
+                    withDockerRegistry([ credentialsId: "dockerhub-credentials", url: "" ]) {
+                        sh  'docker push alkeshgupta/myapp:latest'
+                        sh  'docker push alkeshgupta/myapp:$BUILD_NUMBER' 
+                    } 
                 }
             }
         }
